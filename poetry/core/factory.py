@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 import logging
 
+from typing import TYPE_CHECKING
 from typing import Any
 from typing import Dict
 from typing import List
@@ -13,10 +14,13 @@ from warnings import warn
 from .json import validate_object
 from .packages.dependency import Dependency
 from .packages.project_package import ProjectPackage
-from .poetry import Poetry
 from .pyproject import PyProjectTOML
 from .spdx import license_by_id
 from .utils._compat import Path
+
+
+if TYPE_CHECKING:
+    from poetry.core.poetry import Poetry  # noqa
 
 
 logger = logging.getLogger(__name__)
@@ -27,7 +31,9 @@ class Factory(object):
     Factory class to create various elements needed by Poetry.
     """
 
-    def create_poetry(self, cwd=None):  # type: (Optional[Path]) -> Poetry
+    def create_poetry(self, cwd=None):  # type: (Optional[Path]) -> "Poetry"
+        from poetry.core.poetry import Poetry  # noqa
+
         poetry_file = self.locate(cwd)
         local_config = PyProjectTOML(path=poetry_file).poetry_config
 
