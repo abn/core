@@ -189,7 +189,12 @@ def test_wheel_includes_inline_table():
 
 @pytest.mark.parametrize(
     "package",
-    ["pep_561_stub_only", "pep_561_stub_only_partial", "pep_561_stub_only_src"],
+    [
+        "pep_561_stub_only",
+        "pep_561_stub_only_auto_detect",
+        "pep_561_stub_only_partial",
+        "pep_561_stub_only_src",
+    ],
 )
 def test_wheel_package_pep_561_stub_only(package):
     root = fixtures_dir / package
@@ -200,9 +205,9 @@ def test_wheel_package_pep_561_stub_only(package):
     assert whl.exists()
 
     with zipfile.ZipFile(str(whl)) as z:
-        assert "pkg-stubs/__init__.pyi" in z.namelist()
-        assert "pkg-stubs/module.pyi" in z.namelist()
-        assert "pkg-stubs/subpkg/__init__.pyi" in z.namelist()
+        assert "pep_561-stubs/__init__.pyi" in z.namelist()
+        assert "pep_561-stubs/module.pyi" in z.namelist()
+        assert "pep_561-stubs/subpkg/__init__.pyi" in z.namelist()
 
 
 def test_wheel_package_pep_561_stub_only_includes_typed_marker():
@@ -214,7 +219,7 @@ def test_wheel_package_pep_561_stub_only_includes_typed_marker():
     assert whl.exists()
 
     with zipfile.ZipFile(str(whl)) as z:
-        assert "pkg-stubs/py.typed" in z.namelist()
+        assert "pep_561-stubs/py.typed" in z.namelist()
 
 
 def test_wheel_includes_licenses_in_correct_paths():

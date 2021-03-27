@@ -23,7 +23,11 @@ class Module:
         from .include import Include
         from .package_include import PackageInclude
 
-        self._name = module_name(name)
+        if name.endswith("-stubs"):
+            self._name = f"{module_name(name.replace('-stubs', ''))}-stubs"
+        else:
+            self._name = module_name(name)
+
         self._in_src = False
         self._is_package = False
         self._path = Path(directory)
